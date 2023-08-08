@@ -3,6 +3,7 @@ use std::net::SocketAddr;
 
 use axum::{ Router, extract::Query, response::{IntoResponse, Html}};
 use axum::routing::get;
+use tower_cookies::CookieManagerLayer;
 use crate::error::Error;
 
 mod web;
@@ -18,9 +19,10 @@ async fn main() -> Result<(),Error>
 
     let main_route = Router::new()
         .merge(main_routes())
+        .merge(web::login_route::routes(db.clone()))
         .merge(web::register_route::routes(db.clone()))
-        .merge(web::login_route::routes(db.clone()));
-        
+        .layer(CookieManagerLayer::new());
+    
         
 
     let addr = SocketAddr::from(([127,0,0,1],10031));

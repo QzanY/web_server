@@ -6,7 +6,7 @@ use axum_macros::debug_handler;
 pub fn routes(db: DataBase) -> Router
 {
     Router::new()
-    .route("/users", post(create_user).delete(delete_user))
+    .route("/api/register", post(create_user).delete(delete_user))
     .with_state(db)
 }
 #[debug_handler]
@@ -15,8 +15,6 @@ async fn create_user(
     Json(new_user): Json<User>
 ) -> Result<Json<User>,Error>
 {
-    
-    // let user = db.create_user(new_user).await.unwrap();
     match db.create_user(new_user).await
     {
         Ok(value) => {
@@ -29,8 +27,6 @@ async fn create_user(
             return Err(Error::RegisterErrorUserExists)}
     };
 
-    // println!("{:?}",db);
-    // Ok(Json(user))
 }
 
 async fn delete_user(
