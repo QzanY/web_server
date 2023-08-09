@@ -32,8 +32,7 @@ async fn api_login(
         return Err(Error::LoginFailWrongPassword);
     }
 
-    cookies.add(Cookie::new(crate::web::AUTH_TOKEN,format!("{}.exp.sign",payload.name)));
-
+    cookies.add(Cookie::build(crate::web::AUTH_TOKEN, format!("{}.exp.sign",payload.name)).path("/").finish());
     println!(">> Someone logged in!");
 
     let res = Json(json!(

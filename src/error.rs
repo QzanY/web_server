@@ -9,9 +9,10 @@ pub enum Error
     LoginFailNoSuchUserExists,
 
     RegisterErrorUserExists,
-    
 
     DeleteUserError,
+
+    AuthErrorNoTokenCookie,
 
 }
 
