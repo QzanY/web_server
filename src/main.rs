@@ -8,7 +8,6 @@ use tower_http::services::ServeDir;
 use crate::error::Error;
 
 mod web;
-mod file;
 mod user;
 mod error;
 
