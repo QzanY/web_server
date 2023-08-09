@@ -16,8 +16,14 @@ async fn api_login(
     State(db):State<DataBase>,
     payload: Json<LoginCredits>) -> Result<Json<Value>,Error>
 {
-    println!(">> Someone trying to log in!");
+    println!(">> Someone is trying to log in!");
 
+    let token = cookies.get(crate::web::AUTH_TOKEN).map(|c| c.value().to_string());
+    match token
+    {
+        Some(_) => return Err(Error::LoginFailAlreadyLogged),
+        None => {}
+    }
     let check = db.search_user(&payload.name).await;
     
     if !(check)
